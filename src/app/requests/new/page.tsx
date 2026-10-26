@@ -119,9 +119,21 @@ export default function NewRequestPage() {
               Maintenance Request Intake
             </h1>
             <p className="text-xs text-slate-500 mt-1">
-              Log a tenant issue or submit a maintenance ticket on behalf of a resident.
+              Log an authenticated tenant issue or submit a maintenance ticket on behalf of a resident.
             </p>
           </div>
+        </div>
+
+        {/* Clerk Authenticated Session Pill */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-white rounded-xl border border-slate-200 text-xs shadow-2xs">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span className="font-semibold text-slate-800">Clerk Authenticated Session:</span>
+            <span className="text-slate-600">Alex Morgan (Senior PM) • Oakridge Property Management</span>
+          </div>
+          <span className="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200 shrink-0">
+            Role: Authorized Submitter
+          </span>
         </div>
 
         {error && (

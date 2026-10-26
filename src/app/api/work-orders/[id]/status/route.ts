@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAuthContextFromRequest, assertAuthorized } from '@/lib/auth/session';
+import { getAuthContextFromRequest, assertAuthorized, assertManagerPrivileges } from '@/lib/auth/session';
 import { memoryStore } from '@/lib/db/memory-store';
 import { WorkOrderStatus } from '@/lib/types';
 
@@ -20,6 +20,9 @@ export async function PATCH(
         { status: 400 }
       );
     }
+
+    // Enforce role privileges: tenants/viewers cannot approve or change work order status
+    assertManagerPrivileges(auth, 'approve or modify work orders');
 
     // 1. Fetch work order
     const existing = await memoryStore.getWorkOrder(auth.organizationId, workOrderId);

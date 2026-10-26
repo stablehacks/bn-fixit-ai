@@ -51,6 +51,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const isTenantUser = auth.role === 'tenant';
+    const effectiveTenantName = isTenantUser ? auth.userName : (tenant_name ? String(tenant_name).trim() : undefined);
+    const creatorLabel = isTenantUser
+      ? `Tenant: ${auth.userName} [Clerk ID: ${auth.userId}]`
+      : `${auth.userName} (${auth.role})`;
+
     const newRequest = await memoryStore.createMaintenanceRequest({
       organization_id: auth.organizationId,
       property_id,
@@ -60,8 +66,8 @@ export async function POST(req: NextRequest) {
       urgency: (urgency as UrgencyLevel) || 'normal',
       status: 'submitted',
       reported_at: reported_at || new Date().toISOString(),
-      created_by: `${auth.userName} (${auth.role})`,
-      tenant_name: tenant_name ? String(tenant_name).trim() : undefined,
+      created_by: creatorLabel,
+      tenant_name: effectiveTenantName,
       tenant_phone: tenant_phone ? String(tenant_phone).trim() : undefined,
       photo_url: photo_url ? String(photo_url).trim() : undefined,
     });

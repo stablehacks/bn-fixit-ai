@@ -42,7 +42,7 @@ export interface UserMembership {
   clerk_user_id: string;
   name: string;
   email: string;
-  role: 'owner' | 'manager' | 'operator' | 'viewer';
+  role: 'owner' | 'manager' | 'operator' | 'viewer' | 'tenant';
   created_at: string;
 }
 
